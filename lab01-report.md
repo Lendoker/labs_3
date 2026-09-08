@@ -23,7 +23,7 @@
 ### Рівень 1
 
 #### 1. Основні SELECT запити
-```sql
+
 -- 1.1 Отримати всі записи з таблиці customers
 [SELECT * FROM customers](1.png)
 
@@ -32,7 +32,7 @@ SELECT product_name, unit_price FROM products;
 
 -- 1.3 Показати контактні дані всіх співробітників
 SELECT first_name, last_name, phone, email FROM employees;
-```
+
 
 #### 2. Прості умови WHERE
 ```sql
