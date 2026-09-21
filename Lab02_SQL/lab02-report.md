@@ -32,7 +32,7 @@
 2. Для ранжування використано ROW_NUMBER(), RANK(), DENSE_RANK().
 3. Для порівняння замовлень клієнта використано LAG(), LEAD() і PARTITION BY.
 
-![Результат віконних функцій у Supabase](screenshots/level-2-window-functions.png)
+![Оновлений результат віконних функцій у Supabase](screenshots/level-2-window-functions-v2.png)
 
 ### Рівень 3 — складна аналітика та оптимізація
 
@@ -41,7 +41,7 @@
 3. Створено параметризовану SQL-функцію product_analytics.
 4. Додано індекси та виконано EXPLAIN (ANALYZE, BUFFERS).
 
-![Результат materialized view у Supabase](screenshots/level-3-materialized-view.png)
+![Оновлений результат materialized view у Supabase](screenshots/level-3-materialized-view-v2.png)
 
 ## SQL-запити лабораторної роботи
 
