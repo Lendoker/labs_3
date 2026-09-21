@@ -78,5 +78,18 @@ workspace/
 системою Linux.
 
 ## Скріншоти
-Потрібно додати реальні скріншоти термінала після запуску сценарію:
-`screenshots/stage-01.png` ... `screenshots/stage-07.png`.
+Скріншоти отримано з активної Ubuntu VM через VirtualBox:
+
+![Етап 1 — навігація](screenshots/stage-01.png)
+
+![Етап 2 — структура каталогів](screenshots/stage-02.png)
+
+![Етап 3 — файли та таймстемпи](screenshots/stage-03.png)
+
+![Етап 4 — копіювання](screenshots/stage-04.png)
+
+![Етап 5 — переміщення](screenshots/stage-05.png)
+
+![Етап 6 — відносна навігація](screenshots/stage-06.png)
+
+![Етап 7 — видалення](screenshots/stage-07.png)
