@@ -1,30 +1,11 @@
-# Лабораторні роботи
+# Лабораторна робота з баз даних
 
-Підготовлені матеріали:
+У цьому репозиторії зберігаються матеріали лабораторних робіт із
+PostgreSQL/Supabase:
 
-- `Lab01_CSharp/` — єдиний консольний застосунок C# для ЛР1 і звіт
-- `Lab02_Linux/` — сценарій команд Linux і звіт для ЛР2 з файлової системи
-- `Lab02_SQL/` — SQL-запити PostgreSQL рівня 3 і звіт для ЛР2
+- `lab01-report.md` — звіт з ЛР1;
+- `Lab02_SQL/lab02_queries.sql` — запити ЛР2;
+- `Lab02_SQL/lab02-report.md` — звіт з ЛР2.
 
-## Перевірка C#
-
-```powershell
-dotnet build .\Lab01_CSharp\Lab01_CSharp.csproj
-dotnet run --project .\Lab01_CSharp\Lab01_CSharp.csproj
-```
-
-## Linux
-
-Скопіювати каталог до Linux/WSL і виконати:
-
-```bash
-chmod +x lab02_commands.sh
-./lab02_commands.sh
-```
-
-Сценарій наприкінці видаляє створений `workspace`, як вимагає завдання.
-
-## SQL
-
-Відкрити `Lab02_SQL/lab02_queries.sql` у Supabase SQL Editor і виконувати
-запити послідовно. Скрипт очікує таблиці навчальної БД з ЛР1.
+Запити виконуються послідовно у Supabase SQL Editor на навчальній БД
+«ТехноМарт».
