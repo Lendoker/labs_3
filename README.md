@@ -4,8 +4,7 @@
 PostgreSQL/Supabase:
 
 - `lab01-report.md` — звіт з ЛР1;
-- `Lab02_SQL/lab02_queries.sql` — запити ЛР2;
-- `Lab02_SQL/lab02-report.md` — звіт з ЛР2.
+- `Lab02_SQL/lab02-report.md` — єдиний звіт ЛР2 із вбудованими SQL-запитами та скріншотами.
 
 Запити виконуються послідовно у Supabase SQL Editor на навчальній БД
 «ТехноМарт».
