@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Книга{% endblock %}
+{% block content %}
+<h1>{% if editing %}Редагування книги{% else %}Нова книга{% endif %}</h1>
+<form method="post" class="card form" id="book-form">
+    <label>Назва <input name="title" required maxlength="200" value="{{ book.get('title', '') }}"></label>
+    <label>ISBN <input name="isbn" required pattern="978-[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]" value="{{ book.get('isbn', '') }}"></label>
+    <label>Рік <input name="year" required type="number" min="1450" max="2026" value="{{ book.get('year', '') }}"></label>
+    <label>Сторінки <input name="pages" required type="number" min="1" max="10000" value="{{ book.get('pages', '') }}"></label>
+    <label>Тираж <input name="copies" required type="number" min="1" max="1000" value="{{ book.get('copies', 1) }}"></label>
+    <label>Автор
+        <select name="author_id" required>
+            {% for author in authors %}
+            <option value="{{ author.author_id }}" {% if book.get('author_id')|string == author.author_id|string %}selected{% endif %}>{{ author.last_name }} {{ author.first_name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Видавництво
+        <select name="publisher_id">
+            <option value="">Не вказано</option>
+            {% for publisher in publishers %}
+            <option value="{{ publisher.publisher_id }}" {% if book.get('publisher_id')|string == publisher.publisher_id|string %}selected{% endif %}>{{ publisher.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Жанр
+        <select name="genre_id">
+            <option value="">Не вказано</option>
+            {% for genre in genres %}
+            <option value="{{ genre.genre_id }}" {% if book.get('genre_id')|string == genre.genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <p id="client-errors" class="flash error" hidden></p>
+    <button type="submit">Зберегти</button>
+</form>
+<script src="{{ url_for('static', filename='validate.js') }}"></script>
+{% endblock %}

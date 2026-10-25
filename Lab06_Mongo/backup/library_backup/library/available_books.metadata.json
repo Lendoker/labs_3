@@ -1,0 +1,1 @@
+{"options":{"viewOn":"books","pipeline":[{"$match":{"available":true}},{"$project":{"title":{"$numberInt":"1"},"author":{"$numberInt":"1"},"publication_year":{"$numberInt":"1"},"pages":{"$numberInt":"1"},"location.branch":{"$numberInt":"1"}}}]},"indexes":[],"collectionName":"available_books","type":"view"}

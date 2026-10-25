@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<h1>Статистика</h1>
+<img src="{{ url_for('static', filename='charts/genres.png') }}" alt="Книги за жанрами">
+<h2>Видачі читачів</h2>
+<table>
+    <thead><tr><th>Читач</th><th>Усього</th><th>Відкриті</th></tr></thead>
+    <tbody>
+    {% for row in by_reader %}
+        <tr><td>{{ row.reader_name }}</td><td>{{ row.loans_total }}</td><td>{{ row.open_loans }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h2>Видачі за місяцями</h2>
+<table>
+    <thead><tr><th>Місяць</th><th>Кількість</th></tr></thead>
+    <tbody>
+    {% for row in by_month %}
+        <tr><td>{{ row.month }}</td><td>{{ row.loans_count }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

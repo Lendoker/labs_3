@@ -1,0 +1,342 @@
+{
+  "base": "http://127.0.0.1:3017",
+  "steps": [
+    {
+      "name": "health",
+      "method": "GET",
+      "url": "/api/health",
+      "status": 200,
+      "cache": null,
+      "ms": 52,
+      "body": {
+        "ok": true,
+        "db": "blog",
+        "posts": 50,
+        "users": 20,
+        "categories": 10,
+        "primary": "library-mongo:27017",
+        "setName": "rs0"
+      }
+    },
+    {
+      "name": "posts-page-1",
+      "method": "GET",
+      "url": "/api/posts?page=1&limit=6",
+      "status": 200,
+      "cache": null,
+      "ms": 7,
+      "body": {
+        "page": 1,
+        "limit": 6,
+        "total": 50,
+        "items": [
+          {
+            "id": "6ad8f352ce35147b7992f6be",
+            "title": "Індекси MongoDB: нотатка 1 з Луцька",
+            "author": "ivan_koval",
+            "category": "Веброзробка",
+            "city": "Ковель",
+            "tags": [
+              "javascript",
+              "react"
+            ],
+            "views": 20,
+            "likes": 0,
+            "dislikes": 0,
+            "comments": 5,
+            "version": 2
+          },
+          {
+            "id": "6ad8f352ce35147b7992f6bf",
+            "title": "Агрегація pipeline: нотатка 2 з Луцька",
+            "author": "maria_shevchuk",
+            "category": "Мобільні додатки",
+            "city": "Рівне",
+            "tags": [
+              "python",
+              "nodejs"
+            ],
+            "views": 37,
+            "likes": 3,
+            "dislikes": 1,
+            "comments": 5,
+            "version": 2
+          },
+          {
+            "id": "6ad8f352ce35147b7992f6c0",
+            "title": "JSON Schema: нотатка 3 з Луцька",
+            "author": "oleh_bondar",
+            "category": "Бази даних",
+            "city": "Луцьк",
+            "tags": [
+              "mongodb",
+              "docker"
+            ],
+            "views": 54,
+            "likes": 6,
+            "dislikes": 2,
+            "comments": 6,
+            "version": 2
+          },
+          {
+            "id": "6ad8f352ce35147b7992f6c1",
+            "title": "Геозапити: нотатка 4 з Луцька",
+            "author": "anna_melnyk",
+            "category": "DevOps",
+            "city": "Луцьк",
+            "tags": [
+              "react",
+              "kubernetes"
+            ],
+            "views": 71,
+            "likes": 9,
+            "dislikes": 3,
+            "comments": 8,
+            "version": 1
+          },
+          {
+            "id": "6ad8f352ce35147b7992f6c2",
+            "title": "Повнотекстовий пошук: нотатка 5 з Луцька",
+            "author": "dmytro_tkach",
+            "category": "Штучний інтелект",
+            "city": "Луцьк",
+            "tags": [
+              "nodejs",
+              "sql"
+            ],
+            "views": 88,
+            "likes": 12,
+            "dislikes": 4,
+            "comments": 4,
+            "version": 1
+          },
+          {
+            "id": "6ad8f352ce35147b7992f6c3",
+            "title": "Вкладені коментарі: нотатка 6 з Луцька",
+            "author": "sofia_kravchuk",
+            "category": "Хмарні технології",
+            "city": "Луцьк",
+            "tags": [
+              "docker",
+              "nosql"
+            ],
+            "views": 105,
+            "likes": 15,
+            "dislikes": 0,
+            "comments": 5,
+            "version": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "posts-page-2",
+      "method": "GET",
+      "url": "/api/posts?page=2&limit=6",
+      "status": 200,
+      "cache": null,
+      "ms": 7,
+      "body": {
+        "page": 2,
+        "total": 50,
+        "first": "Кешування запитів: нотатка 7 з Луцька"
+      }
+    },
+    {
+      "name": "tags",
+      "method": "GET",
+      "url": "/api/posts?tags=mongodb,docker&limit=10",
+      "status": 200,
+      "cache": null,
+      "ms": 7,
+      "body": {
+        "total": 5,
+        "titles": [
+          "JSON Schema: нотатка 3 з Луцька",
+          "JSON Schema: нотатка 13 з Луцька",
+          "JSON Schema: нотатка 23 з Луцька",
+          "JSON Schema: нотатка 33 з Луцька",
+          "JSON Schema: нотатка 43 з Луцька"
+        ]
+      }
+    },
+    {
+      "name": "search",
+      "method": "GET",
+      "url": "/api/search?q=%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%96%20%D0%9B%D1%83%D1%86%D1%8C%D0%BA%D1%83",
+      "status": 200,
+      "cache": null,
+      "ms": 8,
+      "body": {
+        "query": "коментарі Луцьку",
+        "normalized": "коментар луцьк",
+        "count": 15,
+        "titles": [
+          "Кешування запитів: нотатка 7 з Луцька",
+          "Геозапити: нотатка 24 з Луцька",
+          "Індекси MongoDB: нотатка 11 з Луцька"
+        ]
+      }
+    },
+    {
+      "name": "near",
+      "method": "GET",
+      "url": "/api/posts/near?lng=25.3254&lat=50.7472&meters=15000",
+      "status": 200,
+      "cache": null,
+      "ms": 10,
+      "body": {
+        "count": 44,
+        "cities": {
+          "Луцьк": 44
+        },
+        "nearest": {
+          "id": "6ad8f352ce35147b7992f6c5",
+          "title": "Реплікація: нотатка 8 з Луцька",
+          "author": "olena_marchuk",
+          "category": "Мобільні додатки",
+          "city": "Луцьк",
+          "tags": [
+            "sql",
+            "javascript"
+          ],
+          "views": 139,
+          "likes": 21,
+          "dislikes": 2,
+          "comments": 7,
+          "distance_m": 0
+        }
+      }
+    },
+    {
+      "name": "cache",
+      "cache1": "MISS",
+      "ms1": 6,
+      "query_ms": 3,
+      "cache2": "HIT",
+      "ms2": 3,
+      "age_ms": 3,
+      "leader": {
+        "username": "maria_shevchuk",
+        "posts_count": 5,
+        "total_views": 625,
+        "total_likes": 135,
+        "avg_views_per_post": 125
+      }
+    },
+    {
+      "name": "comment-stats",
+      "method": "GET",
+      "url": "/api/stats/comments",
+      "status": 200,
+      "cache": null,
+      "ms": 5,
+      "body": {
+        "total_posts": 50,
+        "total_comments": 290,
+        "max_comments": 8,
+        "avg_comments_per_post": 5.8
+      }
+    },
+    {
+      "name": "views",
+      "title": "Індекси MongoDB: нотатка 1 з Луцька",
+      "views_before": 21,
+      "views_after": 22,
+      "top_comment_status": "approved",
+      "replies": 2
+    },
+    {
+      "name": "like",
+      "method": "POST",
+      "url": "/api/posts/6ad8f352ce35147b7992f6be/like",
+      "status": 200,
+      "cache": null,
+      "ms": 24,
+      "body": {
+        "updated": true,
+        "statistics": {
+          "views": 22,
+          "likes": 1,
+          "dislikes": 0,
+          "comments_count": 5
+        }
+      }
+    },
+    {
+      "name": "like-repeat",
+      "method": "POST",
+      "url": "/api/posts/6ad8f352ce35147b7992f6be/like",
+      "status": 200,
+      "cache": null,
+      "ms": 7,
+      "body": {
+        "updated": false,
+        "statistics": {
+          "views": 22,
+          "likes": 1,
+          "dislikes": 0,
+          "comments_count": 5
+        }
+      }
+    },
+    {
+      "name": "comment",
+      "status": 201,
+      "comment_status": "pending",
+      "comment_id": "6ad8f3d217d1661c502bba8f"
+    },
+    {
+      "name": "reply",
+      "status": 201,
+      "reply_status": "pending"
+    },
+    {
+      "name": "moderate",
+      "method": "PATCH",
+      "url": "/api/posts/6ad8f352ce35147b7992f6be/comments/6ad8f3d217d1661c502bba8f",
+      "status": 200,
+      "cache": null,
+      "ms": 9,
+      "body": {
+        "status": "approved",
+        "modified": 1
+      }
+    },
+    {
+      "name": "edit",
+      "status": 200,
+      "version": 3,
+      "history": 2
+    },
+    {
+      "name": "notifications",
+      "status": 200,
+      "unread": 12,
+      "latest": "roman_ostapuk відповів у коментарях до «Індекси MongoDB: нотатка 1 з Луцька»"
+    },
+    {
+      "name": "create",
+      "method": "POST",
+      "url": "/api/posts",
+      "status": 201,
+      "cache": null,
+      "ms": 37,
+      "body": {
+        "id": "6ad8f3d217d1661c502bba93",
+        "slug": "notatka-z-vebformy"
+      }
+    },
+    {
+      "name": "health-after",
+      "posts": 51,
+      "users": 20,
+      "categories": 10
+    },
+    {
+      "name": "validation-http",
+      "status": 400,
+      "error": "Назва має містити від 3 до 200 символів"
+    }
+  ]
+}

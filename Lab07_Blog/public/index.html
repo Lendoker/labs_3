@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Блог ІПЗ-32</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; font-family: "Segoe UI", sans-serif; background: #f4f6f8; color: #1d2430; }
+    header { background: #1f3b57; color: #fff; padding: 18px 0; }
+    header a { color: #d6e8ff; margin-right: 16px; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .panel, .card, form, .modal article { background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .panel, form { margin: 16px 0; padding: 14px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    input, select, textarea, button { font: inherit; }
+    input, select, textarea { border: 1px solid #c9d2dc; border-radius: 6px; padding: 8px; }
+    textarea { width: 100%; min-height: 90px; }
+    button { background: #2d6a9f; color: #fff; border: 0; border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+    button.alt { background: #5c6b7a; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card { padding: 14px; }
+    .card h2 { font-size: 1.05rem; margin: 0 0 8px; }
+    .meta, .muted { color: #5d6b7b; font-size: .9rem; }
+    .tag { display: inline-block; background: #e8eef5; border-radius: 99px; padding: 2px 8px; margin: 2px; font-size: .82rem; }
+    .status { font-size: .78rem; border-radius: 99px; padding: 2px 7px; }
+    .approved { background: #e5f6ea; color: #146c2e; }
+    .pending { background: #fff4d6; color: #8a5a00; }
+    .rejected { background: #fde8e8; color: #9d1c1c; }
+    .reply { margin-left: 16px; border-left: 3px solid #d5e2f0; padding-left: 8px; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); overflow: auto; }
+    .modal article { margin: 40px auto; max-width: 760px; padding: 18px; }
+    #log { white-space: pre-wrap; font-family: Consolas, monospace; font-size: .85rem; }
+    label { display: block; margin: 8px 0 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Блог на MongoDB</h1>
+      <div>ІПЗ-32, Луцьк · <a href="/">Пости</a><a href="/analytics.html">Аналітика</a></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="panel">
+      <div class="row">
+        <input id="q" placeholder="Пошук українською, наприклад: коментарі" style="flex:1">
+        <button id="searchBtn">Шукати</button>
+        <input id="tags" placeholder="Теги через кому: mongodb,docker" style="flex:1">
+        <button id="tagBtn" class="alt">Теги</button>
+        <button id="nearBtn" class="alt">Поруч із Луцьком</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button id="cacheBtn" class="alt">Топ авторів (кеш)</button>
+        <span id="pageInfo" class="muted"></span>
+        <button id="prevBtn" class="alt">Назад</button>
+        <button id="nextBtn" class="alt">Далі</button>
+      </div>
+      <div id="log" class="muted"></div>
+    </section>
+    <section id="grid" class="grid"></section>
+    <form id="postForm" class="panel">
+      <h2>Новий пост</h2>
+      <label>Автор</label><select id="author" required></select>
+      <label>Категорія</label><select id="category" required></select>
+      <label>Назва</label><input id="title" required style="width:100%">
+      <label>Теги</label><input id="formTags" placeholder="mongodb, lutsk" style="width:100%">
+      <label>Текст (щонайменше 100 символів)</label><textarea id="content" required></textarea>
+      <button type="submit">Опублікувати</button>
+    </form>
+  </main>
+  <div id="modal" class="modal"><article id="details"></article></div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let page = 1;
+    const limit = 6;
+    let total = 0;
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+    function log(text) { $("log").textContent = text; }
+    async function api(url, options) {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || response.statusText);
+      return data;
+    }
+    function card(post) {
+      const el = document.createElement("article");
+      el.className = "card";
+      const tags = (post.tags || []).map((tag) => `<span class="tag">#${esc(tag)}</span>`).join("");
+      el.innerHTML = `<h2>${esc(post.title)}</h2>
+        <div class="meta">${esc(post.author.username)} · ${esc(post.category.name)} · ${esc(post.location && post.location.city || "")}</div>
+        <p>${esc(post.excerpt || "")}</p>
+        <div class="meta">перегляди ${post.statistics.views} · лайки ${post.statistics.likes} · коментарі ${post.statistics.comments_count}</div>
+        <div>${tags}</div>`;
+      el.onclick = () => openPost(post._id);
+      return el;
+    }
+    async function load(extra) {
+      const data = extra || await api(`/api/posts?page=${page}&limit=${limit}`);
+      total = data.total ?? data.items.length;
+      $("grid").innerHTML = "";
+      data.items.forEach((post) => $("grid").appendChild(card(post)));
+      const pages = Math.max(1, Math.ceil(total / limit));
+      $("pageInfo").textContent = `Сторінка ${data.page || page} з ${pages}, усього ${total}`;
+      log(`Завантажено ${data.items.length} постів.`);
+    }
+    function commentHtml(comment, nested) {
+      const replies = (comment.replies || []).map((reply) => commentHtml(reply, true)).join("");
+      return `<div class="${nested ? "reply" : ""}" style="margin-top:8px">
+        <strong>${esc(comment.author.username)}</strong>
+        <span class="status ${esc(comment.status)}">${esc(comment.status)}</span>
+        <div>${esc(comment.text)}</div>
+        ${replies}
+      </div>`;
+    }
+    async function openPost(id) {
+      const post = await api("/api/posts/" + id);
+      const comments = (post.comments || []).map((comment) => commentHtml(comment, false)).join("");
+      $("details").innerHTML = `<button id="closeBtn" class="alt">Закрити</button>
+        <h2>${esc(post.title)}</h2>
+        <div class="meta">${esc(post.author.username)} · ${esc(post.category.name)} · ${esc(post.location.city)} · версія ${post.version}</div>
+        <p>${esc(post.content)}</p>
+        <div class="meta">перегляди ${post.statistics.views} · лайки ${post.statistics.likes} · дизлайки ${post.statistics.dislikes}</div>
+        <div class="row">
+          <button id="likeBtn">Лайк</button>
+          <button id="dislikeBtn" class="alt">Дизлайк</button>
+        </div>
+        <h3>Коментарі</h3>
+        ${comments || "<p class='muted'>Коментарів ще немає</p>"}
+        <label>Коментар від</label><input id="cUser" value="petro_ivanov">
+        <textarea id="cText" placeholder="Текст коментаря"></textarea>
+        <button id="cBtn">Надіслати на модерацію</button>`;
+      $("modal").style.display = "block";
+      $("closeBtn").onclick = () => { $("modal").style.display = "none"; };
+      $("likeBtn").onclick = async () => { const r = await api(`/api/posts/${id}/like`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: "petro_ivanov" }) }); log("Лайк: " + JSON.stringify(r.statistics)); openPost(id); };
+      $("dislikeBtn").onclick = async () => { const r = await api(`/api/posts/${id}/dislike`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: "petro_ivanov" }) }); log("Дизлайк: " + JSON.stringify(r.statistics)); openPost(id); };
+      $("cBtn").onclick = async () => {
+        await api(`/api/posts/${id}/comments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: $("cUser").value, text: $("cText").value }) });
+        log("Коментар збережено зі статусом pending");
+        openPost(id);
+      };
+    }
+    $("searchBtn").onclick = async () => {
+      const data = await api("/api/search?q=" + encodeURIComponent($("q").value));
+      $("grid").innerHTML = "";
+      data.items.forEach((post) => $("grid").appendChild(card(post)));
+      log(`Пошук «${data.query}» → «${data.normalized}», знайдено ${data.count}`);
+    };
+    $("tagBtn").onclick = async () => {
+      page = 1;
+      const data = await api(`/api/posts?page=1&limit=${limit}&tags=` + encodeURIComponent($("tags").value));
+      total = data.total;
+      $("grid").innerHTML = "";
+      data.items.forEach((post) => $("grid").appendChild(card(post)));
+      $("pageInfo").textContent = `За тегами: ${data.total}`;
+      log(`Теги ${$("tags").value}: ${data.total}`);
+    };
+    $("nearBtn").onclick = async () => {
+      const data = await api("/api/posts/near?lng=25.3254&lat=50.7472&meters=15000");
+      $("grid").innerHTML = "";
+      data.items.forEach((post) => {
+        post.excerpt = (post.excerpt || "") + ` · ${post.distance_m} м`;
+        $("grid").appendChild(card(post));
+      });
+      log(`Геозапит 15 км від Луцька: ${data.count}`);
+    };
+    $("cacheBtn").onclick = async () => {
+      const first = await api("/api/stats/top-authors");
+      const second = await api("/api/stats/top-authors");
+      log(`Кеш 1: ${first.cache} ${first.query_ms ?? first.age_ms} мс; кеш 2: ${second.cache} ${second.query_ms ?? second.age_ms} мс. Лідер: ${second.data[0].username} (${second.data[0].posts_count})`);
+    };
+    $("prevBtn").onclick = () => { if (page > 1) { page--; load(); } };
+    $("nextBtn").onclick = () => { if (page * limit < total) { page++; load(); } };
+    $("postForm").onsubmit = async (event) => {
+      event.preventDefault();
+      const body = { title: $("title").value, content: $("content").value, author: $("author").value, category: $("category").value, tags: $("formTags").value, city: "Луцьк", lng: 25.3254, lat: 50.7472 };
+      const created = await api("/api/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      log("Створено пост " + created.slug);
+      page = 1;
+      load();
+    };
+    async function init() {
+      const [authors, cats] = await Promise.all([api("/api/users?role=author"), api("/api/categories")]);
+      $("author").innerHTML = authors.map((u) => `<option value="${esc(u.username)}">${esc(u.profile.full_name)}</option>`).join("");
+      $("category").innerHTML = cats.map((c) => `<option value="${esc(c.slug)}">${esc(c.name)}</option>`).join("");
+      await load();
+    }
+    init().catch((error) => log(error.message));
+  </script>
+</body>
+</html>

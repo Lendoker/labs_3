@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Реєстрація{% endblock %}
+{% block content %}
+<h1>Реєстрація читача</h1>
+<form method="post" class="card form" id="register-form">
+    <label>Логін <input name="username" required minlength="3" maxlength="50" pattern="[A-Za-z0-9._-]{3,50}"></label>
+    <label>ПІБ <input name="full_name" required maxlength="100"></label>
+    <label>Пароль <input name="password" type="password" required minlength="6"></label>
+    <p id="client-errors" class="flash error" hidden></p>
+    <button type="submit">Створити обліковий запис</button>
+</form>
+<script src="{{ url_for('static', filename='validate.js') }}"></script>
+{% endblock %}

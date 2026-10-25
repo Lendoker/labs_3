@@ -1,0 +1,162 @@
+{
+  "categories": [
+    {
+      "category_name": "DevOps",
+      "posts_count": 7,
+      "total_views": 1439,
+      "slug": "devops",
+      "avg_likes": 17.29
+    },
+    {
+      "category_name": "Бази даних",
+      "posts_count": 7,
+      "total_views": 1320,
+      "slug": "databases",
+      "avg_likes": 20
+    },
+    {
+      "category_name": "Веброзробка",
+      "posts_count": 7,
+      "total_views": 1082,
+      "slug": "web-development",
+      "avg_likes": 19.71
+    },
+    {
+      "category_name": "Мобільні додатки",
+      "posts_count": 7,
+      "total_views": 1201,
+      "slug": "mobile-apps",
+      "avg_likes": 22.71
+    },
+    {
+      "category_name": "Хмарні технології",
+      "posts_count": 6,
+      "total_views": 1360,
+      "slug": "cloud",
+      "avg_likes": 20
+    },
+    {
+      "category_name": "Штучний інтелект",
+      "posts_count": 6,
+      "total_views": 1258,
+      "slug": "ai",
+      "avg_likes": 17
+    },
+    {
+      "category_name": "UX/UI",
+      "posts_count": 3,
+      "total_views": 755,
+      "slug": "ux-ui",
+      "avg_likes": 15
+    },
+    {
+      "category_name": "Безпека",
+      "posts_count": 3,
+      "total_views": 704,
+      "slug": "security",
+      "avg_likes": 12
+    },
+    {
+      "category_name": "Архітектура ПЗ",
+      "posts_count": 2,
+      "total_views": 736,
+      "slug": "architecture",
+      "avg_likes": 12
+    },
+    {
+      "category_name": "Тестування",
+      "posts_count": 2,
+      "total_views": 770,
+      "slug": "testing",
+      "avg_likes": 15
+    }
+  ],
+  "authors": [
+    {
+      "username": "ivan_koval",
+      "posts_count": 5,
+      "total_views": 540,
+      "total_likes": 120,
+      "avg_views_per_post": 108
+    },
+    {
+      "username": "maria_shevchuk",
+      "posts_count": 5,
+      "total_views": 625,
+      "total_likes": 135,
+      "avg_views_per_post": 125
+    },
+    {
+      "username": "anna_melnyk",
+      "posts_count": 4,
+      "total_views": 708,
+      "total_likes": 52,
+      "avg_views_per_post": 177
+    },
+    {
+      "username": "bohdan_savchuk",
+      "posts_count": 4,
+      "total_views": 1048,
+      "total_likes": 72,
+      "avg_views_per_post": 262
+    },
+    {
+      "username": "dmytro_tkach",
+      "posts_count": 4,
+      "total_views": 776,
+      "total_likes": 24,
+      "avg_views_per_post": 194
+    },
+    {
+      "username": "nazar_hrytsuk",
+      "posts_count": 4,
+      "total_views": 1184,
+      "total_likes": 96,
+      "avg_views_per_post": 296
+    },
+    {
+      "username": "oleh_bondar",
+      "posts_count": 4,
+      "total_views": 640,
+      "total_likes": 80,
+      "avg_views_per_post": 160
+    },
+    {
+      "username": "olena_marchuk",
+      "posts_count": 4,
+      "total_views": 980,
+      "total_likes": 60,
+      "avg_views_per_post": 245
+    },
+    {
+      "username": "sofia_kravchuk",
+      "posts_count": 4,
+      "total_views": 844,
+      "total_likes": 36,
+      "avg_views_per_post": 211
+    },
+    {
+      "username": "taras_lysenko",
+      "posts_count": 4,
+      "total_views": 912,
+      "total_likes": 48,
+      "avg_views_per_post": 228
+    }
+  ],
+  "moderation": [
+    {
+      "_id": "approved",
+      "count": 220
+    },
+    {
+      "_id": "pending",
+      "count": 45
+    },
+    {
+      "_id": "rejected",
+      "count": 25
+    }
+  ],
+  "categoryTitle": "Пости за категоріями",
+  "authorTitle": "Топ авторів за кількістю постів"
+}

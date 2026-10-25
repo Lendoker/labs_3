@@ -1,0 +1,295 @@
+{
+  "users": 20,
+  "authors": 12,
+  "categories": 10,
+  "posts": 50,
+  "notifications": 223,
+  "comment_nodes_built": 290,
+  "comment_stats": {
+    "total_posts": 50,
+    "total_comments": 290,
+    "max_comments": 8,
+    "avg_comments_per_post": 5.8
+  },
+  "roles": [
+    {
+      "_id": "admin",
+      "count": 1
+    },
+    {
+      "_id": "author",
+      "count": 12
+    },
+    {
+      "_id": "reader",
+      "count": 7
+    }
+  ],
+  "top_authors": [
+    {
+      "username": "ivan_koval",
+      "posts_count": 5,
+      "total_views": 540,
+      "total_likes": 120,
+      "avg_views_per_post": 108
+    },
+    {
+      "username": "maria_shevchuk",
+      "posts_count": 5,
+      "total_views": 625,
+      "total_likes": 135,
+      "avg_views_per_post": 125
+    },
+    {
+      "username": "anna_melnyk",
+      "posts_count": 4,
+      "total_views": 708,
+      "total_likes": 52,
+      "avg_views_per_post": 177
+    },
+    {
+      "username": "bohdan_savchuk",
+      "posts_count": 4,
+      "total_views": 1048,
+      "total_likes": 72,
+      "avg_views_per_post": 262
+    },
+    {
+      "username": "dmytro_tkach",
+      "posts_count": 4,
+      "total_views": 776,
+      "total_likes": 24,
+      "avg_views_per_post": 194
+    },
+    {
+      "username": "nazar_hrytsuk",
+      "posts_count": 4,
+      "total_views": 1184,
+      "total_likes": 96,
+      "avg_views_per_post": 296
+    },
+    {
+      "username": "oleh_bondar",
+      "posts_count": 4,
+      "total_views": 640,
+      "total_likes": 80,
+      "avg_views_per_post": 160
+    },
+    {
+      "username": "olena_marchuk",
+      "posts_count": 4,
+      "total_views": 980,
+      "total_likes": 60,
+      "avg_views_per_post": 245
+    },
+    {
+      "username": "sofia_kravchuk",
+      "posts_count": 4,
+      "total_views": 844,
+      "total_likes": 36,
+      "avg_views_per_post": 211
+    },
+    {
+      "username": "taras_lysenko",
+      "posts_count": 4,
+      "total_views": 912,
+      "total_likes": 48,
+      "avg_views_per_post": 228
+    }
+  ],
+  "popular_categories": [
+    {
+      "category_name": "DevOps",
+      "posts_count": 7,
+      "total_views": 1439,
+      "slug": "devops",
+      "avg_likes": 17.29
+    },
+    {
+      "category_name": "Бази даних",
+      "posts_count": 7,
+      "total_views": 1320,
+      "slug": "databases",
+      "avg_likes": 20
+    },
+    {
+      "category_name": "Веброзробка",
+      "posts_count": 7,
+      "total_views": 1082,
+      "slug": "web-development",
+      "avg_likes": 19.71
+    },
+    {
+      "category_name": "Мобільні додатки",
+      "posts_count": 7,
+      "total_views": 1201,
+      "slug": "mobile-apps",
+      "avg_likes": 22.71
+    },
+    {
+      "category_name": "Хмарні технології",
+      "posts_count": 6,
+      "total_views": 1360,
+      "slug": "cloud",
+      "avg_likes": 20
+    },
+    {
+      "category_name": "Штучний інтелект",
+      "posts_count": 6,
+      "total_views": 1258,
+      "slug": "ai",
+      "avg_likes": 17
+    },
+    {
+      "category_name": "UX/UI",
+      "posts_count": 3,
+      "total_views": 755,
+      "slug": "ux-ui",
+      "avg_likes": 15
+    },
+    {
+      "category_name": "Безпека",
+      "posts_count": 3,
+      "total_views": 704,
+      "slug": "security",
+      "avg_likes": 12
+    },
+    {
+      "category_name": "Архітектура ПЗ",
+      "posts_count": 2,
+      "total_views": 736,
+      "slug": "architecture",
+      "avg_likes": 12
+    },
+    {
+      "category_name": "Тестування",
+      "posts_count": 2,
+      "total_views": 770,
+      "slug": "testing",
+      "avg_likes": 15
+    }
+  ],
+  "tags": [
+    {
+      "posts_count": 10,
+      "tag": "docker"
+    },
+    {
+      "posts_count": 10,
+      "tag": "javascript"
+    },
+    {
+      "posts_count": 10,
+      "tag": "kubernetes"
+    },
+    {
+      "posts_count": 10,
+      "tag": "lutsk"
+    },
+    {
+      "posts_count": 10,
+      "tag": "mongodb"
+    },
+    {
+      "posts_count": 10,
+      "tag": "nodejs"
+    },
+    {
+      "posts_count": 10,
+      "tag": "nosql"
+    },
+    {
+      "posts_count": 10,
+      "tag": "python"
+    },
+    {
+      "posts_count": 10,
+      "tag": "react"
+    },
+    {
+      "posts_count": 10,
+      "tag": "sql"
+    }
+  ],
+  "moderation": [
+    {
+      "_id": "approved",
+      "count": 220
+    },
+    {
+      "_id": "pending",
+      "count": 45
+    },
+    {
+      "_id": "rejected",
+      "count": 25
+    }
+  ],
+  "near_lutsk_15km": [
+    {
+      "_id": "Луцьк",
+      "count": 44
+    }
+  ],
+  "posts_with_mongodb_and_docker": 5,
+  "text_sample": [
+    {
+      "title": "Індекси MongoDB: нотатка 21 з Луцька",
+      "score": 2.2
+    },
+    {
+      "title": "Агрегація pipeline: нотатка 2 з Луцька",
+      "score": 2.2
+    },
+    {
+      "title": "Кешування запитів: нотатка 27 з Луцька",
+      "score": 2.2
+    },
+    {
+      "title": "JSON Schema: нотатка 3 з Луцька",
+      "score": 2.2
+    },
+    {
+      "title": "Express і MongoDB: нотатка 40 з Луцька",
+      "score": 2.2
+    }
+  ],
+  "explain_author_before": {
+    "plan": "COLLSCAN",
+    "nReturned": 5,
+    "totalDocsExamined": 50,
+    "totalKeysExamined": 0,
+    "executionTimeMillis": 0
+  },
+  "explain_author_after": {
+    "plan": "FETCH -> IXSCAN(author_username)",
+    "nReturned": 5,
+    "totalDocsExamined": 5,
+    "totalKeysExamined": 5,
+    "executionTimeMillis": 0
+  },
+  "validation": {
+    "rejected": true,
+    "code": 121,
+    "message": "Document failed validation"
+  },
+  "indexes": {
+    "posts": [
+      "_id_",
+      "slug_1",
+      "author_date",
+      "author_username",
+      "category_date",
+      "category_slug",
+      "published_at_-1",
+      "tags_1",
+      "posts_text",
+      "location_2dsphere"
+    ],
+    "users": [
+      "_id_",
+      "username_1",
+      "email_1"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Головна{% endblock %}
+{% block content %}
+<h1>Облік бібліотеки</h1>
+<p>Користувач {{ user.full_name }}, роль {{ user.role }}.</p>
+<section class="grid">
+    <article class="card"><h2>Книги</h2><p class="num">{{ counts.books }}</p></article>
+    <article class="card"><h2>Читачі</h2><p class="num">{{ counts.readers }}</p></article>
+    <article class="card"><h2>Відкриті видачі</h2><p class="num">{{ counts.open_loans }}</p></article>
+    <article class="card"><h2>Прострочені</h2><p class="num">{{ counts.overdue }}</p></article>
+</section>
+{% endblock %}

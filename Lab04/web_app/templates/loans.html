@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Видачі{% endblock %}
+{% block content %}
+<h1>Видачі</h1>
+<form method="post" class="card form">
+    <input type="hidden" name="action" value="issue">
+    <label>Книга
+        <select name="book_id" required>
+            {% for book in books %}
+            <option value="{{ book.book_id }}">{{ book.title }} (вільно {{ book.available_copies }})</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Читач
+        <select name="reader_id" required>
+            {% for reader in readers %}
+            <option value="{{ reader.reader_id }}">{{ reader.last_name }} {{ reader.first_name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Днів <input name="days" type="number" min="1" max="60" value="14" required></label>
+    <button type="submit">Видати</button>
+</form>
+<table>
+    <thead><tr><th>Книга</th><th>Читач</th><th>До</th><th>Стан</th><th></th></tr></thead>
+    <tbody>
+    {% for loan in loans %}
+        <tr>
+            <td>{{ loan.title }}</td>
+            <td>{{ loan.reader_name }}</td>
+            <td>{{ loan.due_date }}</td>
+            <td>{% if loan.is_overdue %}прострочено{% else %}відкрито{% endif %}</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="action" value="return">
+                    <input type="hidden" name="loan_id" value="{{ loan.loan_id }}">
+                    <button type="submit">Прийняти</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

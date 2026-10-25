@@ -1,0 +1,317 @@
+##### SHOT version #####
+executed_at: 2026-10-21T17:14:18.104Z
+mongodb: 7.0.45
+db: library
+me: library-mongo:27017
+setName: rs0
+isWritablePrimary: true
+hosts: library-mongo:27017, library-mongo-2:27017, library-mongo-3:27017
+##### END version #####
+authors_inserted: 10
+##### SHOT counts #####
+authors.insertMany: 10
+books.insertMany: 9
+books.insertOne Intermezzo: 6ad8f2ea3590fad1a5eeb656
+users.insertMany: 9
+users.insertOne iryna_moroz: 6ad8f2ea3590fad1a5eeb660
+counts books=10 authors=10 users=10
+authors: Тарас Шевченко; Леся Українка; Іван Франко; Михайло Коцюбинський; Панас Мирний; Григорій Квітка-Основ'яненко; Василь Стефаник; Іван Нечуй-Левицький; Ольга Кобилянська; Марко Вовчок
+Кобзар | Тарас Шевченко | 1840 | 238 с. | доступна | поезія, романтизм | Центральна бібліотека Луцька
+Лісова пісня | Леся Українка | 1911 | 128 с. | доступна | драма, феєрія, романтизм | Бібліотека на проспекті Волі
+Захар Беркут | Іван Франко | 1883 | 256 с. | видана | роман, історична проза | Бібліотека на вулиці Винниченка
+Тіні забутих предків | Михайло Коцюбинський | 1911 | 96 с. | доступна | повість, романтизм, модернізм | Бібліотека на проспекті Соборності
+Хіба ревуть воли, як ясла повні | Панас Мирний | 1880 | 384 с. | доступна | роман, реалізм | Бібліотека на вулиці Ковельській
+Каменярі | Іван Франко | 1878 | 64 с. | доступна | поезія, реалізм | Читальня у Ковелі
+Конотопська відьма | Григорій Квітка-Основ'яненко | 1837 | 112 с. | доступна | повість, містика | Центральна бібліотека Луцька
+Маруся | Григорій Квітка-Основ'яненко | 1834 | 96 с. | видана | повість, сентименталізм | Бібліотека на вулиці Винниченка
+Камінний хрест | Василь Стефаник | 1900 | 48 с. | доступна | новела, реалізм | Бібліотека на проспекті Волі
+Intermezzo | Михайло Коцюбинський | 1909 | 72 с. | доступна | повість, імпресіонізм | Філія у Рівному
+{
+  name: 'Леся Українка',
+  birth_year: 1871,
+  death_year: 1913,
+  nationality: 'український',
+  biography: 'Поетеса, драматургиня',
+  contact: {
+    city: 'Звягель',
+    country: 'Україна'
+  },
+  genres: [
+    'драма',
+    'поезія'
+  ],
+  notable_works: [
+    'Лісова пісня',
+    'Contra spem spero'
+  ]
+}
+{
+  email: 'ivan.petrov@email.com',
+  status: 'active',
+  borrowed_books: [
+    'Кобзар',
+    'Тіні забутих предків'
+  ],
+  profile: {
+    full_name: 'Іван Петров',
+    city: 'Луцьк',
+    group: 'ІПЗ-32'
+  },
+  address: {
+    street: 'вул. Винниченка, 10',
+    geo: {
+      type: 'Point',
+      coordinates: [
+        25.322,
+        50.746
+      ]
+    }
+  }
+}
+##### END counts #####
+##### SHOT crud #####
+equality author=Іван Франко: 2
+  Захар Беркут (1883)
+  Каменярі (1878)
+comparison pages>100: 5
+  Хіба ревуть воли, як ясла повні - 384
+  Захар Беркут - 256
+  Кобзар - 238
+  Лісова пісня - 128
+  Конотопська відьма - 112
+projection available title+author: 8
+  Intermezzo / Михайло Коцюбинський
+  Каменярі / Іван Франко
+  Камінний хрест / Василь Стефаник
+  Кобзар / Тарас Шевченко
+  Конотопська відьма / Григорій Квітка-Основ'яненко
+  Лісова пісня / Леся Українка
+  Тіні забутих предків / Михайло Коцюбинський
+  Хіба ревуть воли, як ясла повні / Панас Мирний
+sort+limit 5 newest:
+  1911 Лісова пісня
+  1911 Тіні забутих предків
+  1909 Intermezzo
+  1900 Камінний хрест
+  1883 Захар Беркут
+findOne Кобзар before update: {"title":"Кобзар","available":true,"version":1}
+updateOne Кобзар available=false matched=1 modified=1
+push rating Лісова пісня modified=1
+updateMany year<1900 matched=6 modified=6
+inc borrowed_count Тіні modified=1
+unset temporary_note modified=1
+note still present: false
+temp insertOne: 6ad8f2ea3590fad1a5eeb661
+replaceOne matched=1 modified=1
+temp insertMany: 2
+deleteMany temp: 3
+temp author: 6ad8f2ea3590fad1a5eeb664
+deleteOne author: 1
+temp user: 6ad8f2ea3590fad1a5eeb665
+deleteOne suspended old_user: 1
+after Кобзар: {"title":"Кобзар","available":false,"category":"класика XIX століття"}
+after Лісова пісня ratings: 1 score=5
+after Тіні borrowed_count: 1
+final counts books=10 authors=10 users=10
+##### END crud #####
+##### SHOT explain #####
+--- books.author до індексу ---
+books author before
+  plan: COLLSCAN
+  nReturned: 2
+  totalDocsExamined: 10
+  totalKeysExamined: 0
+  executionTimeMillis: 0
+--- books_bench 15000 документів ---
+bench count: 15000
+bench before index
+  plan: COLLSCAN
+  nReturned: 150
+  totalDocsExamined: 15000
+  totalKeysExamined: 0
+  executionTimeMillis: 5
+bench find before index: 233 ms / 30 runs
+created indexes: author_1, title_1, isbn_1
+books author after author_1
+  plan: FETCH -> IXSCAN(author_1)
+  nReturned: 2
+  totalDocsExamined: 2
+  totalKeysExamined: 2
+  executionTimeMillis: 0
+bench index: author_1
+bench after index
+  plan: FETCH -> IXSCAN(author_1)
+  nReturned: 150
+  totalDocsExamined: 150
+  totalKeysExamined: 150
+  executionTimeMillis: 1
+bench find after index: 66 ms / 30 runs
+bench dropped, exists=false
+##### END explain #####
+##### SHOT queryops #####
+$and year>=1800, pages>100, available: 3
+  Лісова пісня | 1911 | 128
+  Хіба ревуть воли, як ясла повні | 1880 | 384
+  Конотопська відьма | 1837 | 112
+$or Шевченко або жанр поезія: 2
+  Кобзар / Тарас Шевченко
+  Каменярі / Іван Франко
+$in genres драма|новела: 2
+  Лісова пісня [драма, феєрія, романтизм]
+  Камінний хрест [новела, реалізм]
+$regex /пісня|хрест/i: 2
+  Камінний хрест
+  Лісова пісня
+##### END queryops #####
+##### SHOT aggregate #####
+genres count:
+  повість: 4
+  реалізм: 3
+  романтизм: 3
+  поезія: 2
+  роман: 2
+  драма: 1
+  модернізм: 1
+  містика: 1
+  новела: 1
+  сентименталізм: 1
+  феєрія: 1
+  імпресіонізм: 1
+  історична проза: 1
+avg pages by author:
+  Панас Мирний: books=1 avg_pages=384
+  Тарас Шевченко: books=1 avg_pages=238
+  Іван Франко: books=2 avg_pages=160
+  Леся Українка: books=1 avg_pages=128
+  Григорій Квітка-Основ'яненко: books=2 avg_pages=104
+  Михайло Коцюбинський: books=2 avg_pages=84
+  Василь Стефаник: books=1 avg_pages=48
+by century:
+  century 19: books=7 authors=5
+  century 20: books=3 authors=2
+top users by borrowed books:
+  dmytro_bondar (suspended): 2
+  ivan_petrov (active): 2
+  vasyl_tkach (active): 2
+  anna_melnyk (active): 1
+  maria_kovalenko (active): 1
+##### END aggregate #####
+##### SHOT lookup #####
+compound index: author_1_publication_year_-1
+compound query
+  plan: FETCH -> IXSCAN(author_1_publication_year_-1)
+  nReturned: 2
+  totalDocsExamined: 2
+  totalKeysExamined: 2
+  executionTimeMillis: 0
+compound query hinted
+  plan: FETCH -> IXSCAN(author_1_publication_year_-1)
+  nReturned: 2
+  totalDocsExamined: 2
+  totalKeysExamined: 2
+  executionTimeMillis: 0
+books with author_id: 10
+lookup sample:
+  Маруся | Григорій Квітка-Основ'яненко | 1778 | Харків
+  Конотопська відьма | Григорій Квітка-Основ'яненко | 1778 | Харків
+  Кобзар | Тарас Шевченко | 1814 | Моринці
+  Каменярі | Іван Франко | 1856 | Нагуєвичі
+view available_books: 7
+view available before 1900:
+  1880 Хіба ревуть воли, як ясла повні
+  1878 Каменярі
+  1837 Конотопська відьма
+view books_with_authors: 10
+##### END lookup #####
+##### SHOT textsearch #####
+text index: books_text
+exact кохання query=[кохання] hits=3
+  Маруся score=3.0000
+  Intermezzo score=2.9167
+  Тіні забутих предків score=2.9167
+exact Карпатах query=[Карпатах] hits=1
+  Тіні забутих предків score=2.9167
+exact Карпати (без стемінгу) query=[Карпати] hits=0
+stemmed Карпати кохання query=[карпат коханн] hits=3
+  Тіні забутих предків score=6.6000
+  Маруся score=3.3000
+  Intermezzo score=3.3000
+tokens Тіні: тіні забутих предк поетичн повість про коханн карпат романтизм модернізм
+##### END textsearch #####
+##### SHOT validation #####
+collMod ok=1
+year 3000: REJECTED code=121 Document failed validation
+available string: REJECTED code=121 Document failed validation
+bad isbn: REJECTED code=121 Document failed validation
+valid insert: 6ad8f2eb3590fad1a5eef101
+valid deleted: 1
+duplicate isbn: REJECTED code=11000
+##### END validation #####
+##### SHOT geo #####
+2dsphere index: location_2dsphere
+$geoNear maxDistance 5000 м від центру Луцька:
+  0 м | Кобзар | Центральна бібліотека Луцька
+  271.5 м | Конотопська відьма | Центральна бібліотека Луцька
+  751.9 м | Маруся | Бібліотека на вулиці Винниченка
+  1035.9 м | Лісова пісня | Бібліотека на проспекті Волі
+  1158.5 м | Камінний хрест | Бібліотека на проспекті Волі
+  1169.3 м | Захар Беркут | Бібліотека на вулиці Винниченка
+  2246.3 м | Хіба ревуть воли, як ясла повні | Бібліотека на вулиці Ковельській
+  2298 м | Тіні забутих предків | Бібліотека на проспекті Соборності
+$near maxDistance 150000 м (Волинь і Рівне):
+  Кобзар | Центральна бібліотека Луцька
+  Конотопська відьма | Центральна бібліотека Луцька
+  Маруся | Бібліотека на вулиці Винниченка
+  Лісова пісня | Бібліотека на проспекті Волі
+  Камінний хрест | Бібліотека на проспекті Волі
+  Захар Беркут | Бібліотека на вулиці Винниченка
+  Хіба ревуть воли, як ясла повні | Бібліотека на вулиці Ковельській
+  Тіні забутих предків | Бібліотека на проспекті Соборності
+  Каменярі | Читальня у Ковелі
+  Intermezzo | Філія у Рівному
+##### END geo #####
+##### SHOT history #####
+history update 1 modified=1
+history update 2 modified=1
+current Кобзар:
+{
+  title: 'Кобзар',
+  pages: 240,
+  available: true,
+  description: 'Збірка віршів Тараса Шевченка. Видання з фонду бібліотеки Луцька.',
+  version: 3,
+  updated_at: ISODate('2026-10-21T17:14:19.687Z')
+}
+history rows: 2
+  v1 pages=238 available=false note=Уточнено кількість сторінок і повернено в фонд
+  v2 pages=240 available=true note=Оновлено опис
+##### END history #####
+##### SHOT replica #####
+set: rs0
+myState: 1
+member library-mongo:27017 state=PRIMARY health=1 self=true
+member library-mongo-2:27017 state=SECONDARY health=1 self=false
+member library-mongo-3:27017 state=SECONDARY health=1 self=false
+secondary info printed above
+##### END replica #####
+##### SHOT final #####
+collection infos:
+  system.views type=collection
+  authors type=collection
+  users type=collection
+  book_history type=collection
+  books type=collection
+  available_books type=view
+  books_with_authors type=view
+books indexes:
+  _id_ key={"_id":1}
+  author_1 key={"author":1}
+  title_1 key={"title":1}
+  isbn_1 key={"isbn":1} unique
+  author_1_publication_year_-1 key={"author":1,"publication_year":-1}
+  books_text key={"_fts":"text","_ftsx":1}
+  location_2dsphere key={"location":"2dsphere"}
+FINAL books=10 authors=10 users=10 history=2 available_view=8
+LAB06_OK
+##### END final #####
+SHELL_EXIT:0

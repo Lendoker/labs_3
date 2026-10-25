@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+<h1>Каталог</h1>
+<form method="get" class="filters">
+    <input name="q" value="{{ q }}" placeholder="Назва, автор або ISBN">
+    <select name="genre_id">
+        <option value="">Усі жанри</option>
+        {% for genre in genres %}
+        <option value="{{ genre.genre_id }}" {% if genre_id == genre.genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+    <select name="sort">
+        <option value="title" {% if sort == 'title' %}selected{% endif %}>Назва</option>
+        <option value="year" {% if sort == 'year' %}selected{% endif %}>Рік</option>
+        <option value="copies" {% if sort == 'copies' %}selected{% endif %}>Вільні примірники</option>
+    </select>
+    <select name="dir">
+        <option value="asc" {% if direction == 'asc' %}selected{% endif %}>За зростанням</option>
+        <option value="desc" {% if direction == 'desc' %}selected{% endif %}>За спаданням</option>
+    </select>
+    <button type="submit">Знайти</button>
+</form>
+{% if user.role in ['admin', 'librarian'] %}
+<p><a class="button" href="{{ url_for('add_book') }}">Додати книгу</a></p>
+{% endif %}
+<p>Знайдено: {{ books|length }}</p>
+<table>
+    <thead>
+        <tr><th>Назва</th><th>Автор</th><th>Жанр</th><th>Рік</th><th>Вільно</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.title }}<br><small>{{ book.isbn }}</small></td>
+            <td>{{ book.author_name }}</td>
+            <td>{{ book.genre_name }}</td>
+            <td>{{ book.publication_year }}</td>
+            <td>{{ book.available_copies }}/{{ book.total_copies }}</td>
+            <td>
+                {% if user.role in ['admin', 'librarian'] %}
+                <a href="{{ url_for('edit_book', book_id=book.book_id) }}">Змінити</a>
+                <form method="post" action="{{ url_for('delete_book', book_id=book.book_id) }}" onsubmit="return confirm('Видалити книгу?');">
+                    <button type="submit">Видалити</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

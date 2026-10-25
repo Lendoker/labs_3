@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Бібліотека{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <a class="brand" href="{{ url_for('index') }}">Бібліотека коледжу</a>
+    {% if user %}
+    <nav>
+        <a href="{{ url_for('books') }}">Каталог</a>
+        {% if user.role in ['admin', 'librarian'] %}
+        <a href="{{ url_for('readers') }}">Читачі</a>
+        <a href="{{ url_for('loans') }}">Видачі</a>
+        <a href="{{ url_for('report') }}">Звіт</a>
+        {% endif %}
+        <a href="{{ url_for('stats') }}">Статистика</a>
+        {% if user.role == 'admin' %}
+        <a href="{{ url_for('audit') }}">Журнал</a>
+        {% endif %}
+    </nav>
+    <form method="post" action="{{ url_for('logout') }}">
+        <span>{{ user.full_name }} ({{ user.role }})</span>
+        <button type="submit">Вийти</button>
+    </form>
+    {% endif %}
+</header>
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <p class="flash {{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

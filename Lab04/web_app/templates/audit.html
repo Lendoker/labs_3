@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Журнал{% endblock %}
+{% block content %}
+<h1>Журнал бази</h1>
+<table>
+    <thead><tr><th>ID</th><th>Таблиця</th><th>Операція</th><th>Запис</th><th>Користувач</th><th>Час</th></tr></thead>
+    <tbody>
+    {% for row in db_log %}
+        <tr>
+            <td>{{ row.log_id }}</td><td>{{ row.table_name }}</td><td>{{ row.operation }}</td>
+            <td>{{ row.record_id }}</td><td>{{ row.changed_by }}</td><td>{{ row.changed_at }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h2>Журнал застосунку</h2>
+<table>
+    <thead><tr><th>ID</th><th>Користувач</th><th>Дія</th><th>Таблиця</th><th>Деталі</th><th>Час</th></tr></thead>
+    <tbody>
+    {% for row in app_log %}
+        <tr>
+            <td>{{ row.log_id }}</td><td>{{ row.username }}</td><td>{{ row.action }}</td>
+            <td>{{ row.table_name }}</td><td>{{ row.details }}</td><td>{{ row.created_at }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

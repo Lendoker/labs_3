@@ -1,0 +1,16 @@
+{
+  "name": "lab07-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Лабораторна робота 07. Блог на MongoDB. Пінкевич Артем Романович, ІПЗ-32, Луцьк, 2026.",
+  "main": "server.js",
+  "scripts": {
+    "seed": "node seed.js",
+    "start": "node server.js",
+    "compare": "node compare.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongodb": "^6.20.0"
+  }
+}

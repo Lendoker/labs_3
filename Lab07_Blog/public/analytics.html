@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Аналітика блогу</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+  <style>
+    body { margin: 0; font-family: "Segoe UI", sans-serif; background: #f4f6f8; color: #1d2430; }
+    header { background: #1f3b57; color: #fff; padding: 18px 0; }
+    header a { color: #d6e8ff; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; }
+    .card { background: #fff; border-radius: 10px; padding: 14px; margin-top: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    td, th { border-bottom: 1px solid #e4ebf2; text-align: left; padding: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Аналітика блогу</h1>
+      <a href="/">До постів</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="card" id="summary">Завантаження…</section>
+    <section class="card">
+      <h2>Пости за категоріями</h2>
+      <canvas id="catChart" height="120"></canvas>
+      <img src="/charts/categories.png" alt="Стовпчикова діаграма категорій">
+    </section>
+    <section class="card">
+      <h2>Топ авторів</h2>
+      <canvas id="authorChart" height="120"></canvas>
+      <img src="/charts/authors.png" alt="Стовпчикова діаграма авторів">
+    </section>
+    <section class="card" id="compare">Порівняння з реляційною вибіркою з’явиться після compare.js.</section>
+  </main>
+  <script>
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+    function table(rows) {
+      return "<table><tr>" + Object.keys(rows[0] || {}).map((key) => `<th>${esc(key)}</th>`).join("") + "</tr>" +
+        rows.map((row) => "<tr>" + Object.values(row).map((value) => `<td>${esc(value)}</td>`).join("") + "</tr>").join("") + "</table>";
+    }
+    function draw(id, labels, data, label) {
+      if (!window.Chart) return;
+      new Chart(document.getElementById(id), {
+        type: "bar",
+        data: { labels, datasets: [{ label, data, backgroundColor: "#2d6a9f" }] },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+    }
+    async function init() {
+      const data = await fetch("/api/analytics").then((r) => r.json());
+      const c = data.comments || {};
+      document.getElementById("summary").innerHTML =
+        `<p>Постів: ${c.total_posts}. Коментарів з відповідями: ${c.total_comments}. Середнє на пост: ${c.avg_comments_per_post}.</p>` +
+        `<h3>Модерація</h3>${table(data.moderation)}<h3>Міста</h3>${table(data.cities)}`;
+      draw("catChart", data.categories.map((x) => x.name), data.categories.map((x) => x.posts_count), "Пости");
+      draw("authorChart", data.authors.map((x) => x.username), data.authors.map((x) => x.posts_count), "Пости");
+      const cmp = await fetch("/api/compare");
+      if (cmp.ok) {
+        const json = await cmp.json();
+        document.getElementById("compare").innerHTML = `<h2>Порівняння MongoDB і SQLite</h2><pre>${esc(JSON.stringify(json.avg_ms, null, 2))}</pre><p>${esc(json.engine_note)}</p>`;
+      }
+    }
+    init();
+  </script>
+</body>
+</html>

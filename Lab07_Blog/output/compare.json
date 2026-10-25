@@ -1,0 +1,22 @@
+{
+  "engine_note": "SQLite in-memory через node:sqlite. Той самий набір постів і коментарів. PostgreSQL на 5432 не чіпався.",
+  "dataset": {
+    "posts": 50,
+    "sqlite_comment_rows": 290,
+    "sqlite_users": 20,
+    "sqlite_categories": 10
+  },
+  "sample_title": "Індекси MongoDB: нотатка 1 з Луцька",
+  "mongo_comment_nodes": 5,
+  "sqlite_joined_comments": 5,
+  "avg_ms": {
+    "mongo_find_one_post_with_embedded_comments": 0.953,
+    "sqlite_join_post_author_category_tags_comments": 0.122,
+    "mongo_top_authors_aggregate": 1.123,
+    "sqlite_top_authors_group_by": 0.035
+  },
+  "repeats": {
+    "read": 300,
+    "top": 100
+  }
+}
